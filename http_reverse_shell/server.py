@@ -1,7 +1,6 @@
-
+#  server side
 import http.server
 import os, cgi
-
 HOST_NAME = '192.168.1.23'
 PORT_NUMBER = 8085
 

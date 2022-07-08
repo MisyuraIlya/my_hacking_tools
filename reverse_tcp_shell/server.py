@@ -1,3 +1,4 @@
+#  server  reverse tcp
 import os
 import socket
 
