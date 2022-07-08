@@ -26,7 +26,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     print('[-]Unexpected POST request')
                 fs_up = fs['file']
-                with open('/root/Desktop/place_holder.txt', 'wb') as o:
+                with open('/Users/ilya/hacking/my_hacking_tools/place_holder.txt', 'wb') as o:
                     print('[+] Writing file ..')
                     o.write(fs_up.file.read())
                     self.send_response(200)

