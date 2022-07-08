@@ -22,7 +22,7 @@ def transfer(conn, command):
 
 def connecting():
     s = socket.socket()
-    s.bind(("192.168.1.24", 4448))
+    s.bind(("192.168.1.23", 4448))
     s.listen(1)
     print('[+] Listening for income TCP connection on port 8080')
     conn, addr = s.accept()
