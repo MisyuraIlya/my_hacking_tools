@@ -2,8 +2,8 @@
 import http.server
 import os, cgi
 
-HOST_NAME = '192.168.1.24'
-PORT_NUMBER = 8081
+HOST_NAME = '192.168.1.23'
+PORT_NUMBER = 8085
 
 class MyHandler(http.server.BaseHTTPRequestHandler):
 
@@ -26,7 +26,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     print('[-]Unexpected POST request')
                 fs_up = fs['file']
-                with open('/Users/ilya/hacking/my_hacking_tools/place_holder.txt', 'wb') as o:
+                with open('/home/kali/python_tools/my_hacking_tools/newFile.txt', 'wb') as o:
                     print('[+] Writing file ..')
                     o.write(fs_up.file.read())
                     self.send_response(200)
